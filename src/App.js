@@ -9,6 +9,38 @@ import Viewer from './components/Viewer'
 import './App.css';
 
 
+
+let basket = {
+  'samsund-galaxy': 5,
+  'motorola-xoom': 2,
+};
+
+function addItem(phoneId) {
+  this.setState(prevState => {
+    const copy = { ...prevState.basket };
+    const count = copy[phoneId] || 0;
+    copy[phoneId] = count + 1;
+
+    return { basket: copy };
+  })
+}
+
+function removeItem(phoneId) {
+  this.setState(prevState => {
+    const copy = { ...prevState.basket };
+    const count = copy[phoneId] || 0;
+
+    if (count > 1) {
+      copy[phoneId] = count - 1;
+    } else {
+      delete copy[phoneId];
+    }
+
+    return { basket: copy };
+  })
+}
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,22 +57,25 @@ class App extends React.Component {
     this.addItem = (phoneId) => {
       this.setState(prevState => {
         const quantity = prevState.basketItems[phoneId] || 0;
+        const copy = { ...prevState.basketItems };
+        copy[phoneId] = quantity + 1;
 
-        return {
-          basketItems: {
-            ...prevState.basketItems,
-            [phoneId]: quantity + 1,
-          }
-        };
+        return { basketItems: copy };
       })
     };
 
     this.removeItem = (phoneId) => {
       this.setState(prevState => {
-        const items = { ...prevState.basketItems };
-        delete items[phoneId];
+        const copy = { ...prevState.basketItems };
+        const count = copy[phoneId] || 0;
 
-        return { basketItems: items };
+        if (count > 1) {
+          copy[phoneId] = count - 1;
+        } else {
+          delete copy[phoneId];
+        }
+
+        return { basketItems: copy };
       })
     };
 
