@@ -7,7 +7,9 @@ const Basket = (props) => (
       { props.items.map((item, index) => (
         <li key={index}>
           {item}
-          <button>x</button>
+          <button onClick={() => props.onRemove(index)}>
+            x
+          </button>
         </li>
       )) }
     </ul>

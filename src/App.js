@@ -29,6 +29,28 @@ class App extends React.Component {
         };
       });
     };
+
+    this.removeItem = (index) => {
+      this.setState(prevState => {
+        return {
+          basketItems: [
+            ...prevState.basketItems.slice(0, index),
+            ...prevState.basketItems.slice(index + 1),
+          ]
+        };
+      })
+    };
+
+    this.showCatalog = () => {
+      this.setState({
+        selectedPhone: null,
+      });
+    };
+    this.selectPhone = (phoneId) => {
+      this.setState({
+        selectedPhone: getById(phoneId),
+      });
+    };
   }
 
   render() {
@@ -38,27 +60,22 @@ class App extends React.Component {
           <div className="row">
             <div className="col-md-2">
               <Filter />
-              <Basket items={this.state.basketItems} />
+              <Basket
+                items={this.state.basketItems}
+                onRemove={this.removeItem}
+              />
             </div>
 
             <div className="col-md-10">
               { this.state.selectedPhone ? (
                 <Viewer
                   phone={this.state.selectedPhone}
-                  onBack={() => {
-                    this.setState({
-                      selectedPhone: null,
-                    });
-                  }}
+                  onBack={this.showCatalog}
                 />
               ) : (
                 <Catalog
                   phones={this.state.phones}
-                  onPhoneSelected={(phoneId) => {
-                    this.setState({
-                      selectedPhone: getById(phoneId),
-                    });
-                  }}
+                  onPhoneSelected={this.selectPhone}
                   onAdd={this.addItem}
                 />
               ) }
