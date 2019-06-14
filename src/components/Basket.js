@@ -4,10 +4,10 @@ const Basket = (props) => (
   <section>
     <p>Shopping Cart</p>
     <ul>
-      { props.items.map((item, index) => (
-        <li key={index}>
-          {item}
-          <button onClick={() => props.onRemove(index)}>
+      { Object.keys(props.items).map(phoneId => (
+        <li key={phoneId}>
+          {phoneId} - {props.items[phoneId]}
+          <button onClick={() => props.onRemove(phoneId)}>
             x
           </button>
         </li>

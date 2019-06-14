@@ -16,28 +16,31 @@ class App extends React.Component {
     this.state = {
       phones: getAll(),
       selectedPhone: null,
-      basketItems: [],
+      basketItems: {
+        samsung: 3,
+        motorola: 1
+      },
     };
 
     this.addItem = (phoneId) => {
-      this.setState((prevState) => {
+      this.setState(prevState => {
+        const quantity = prevState.basketItems[phoneId] || 0;
+
         return {
-          basketItems: [
+          basketItems: {
             ...prevState.basketItems,
-            phoneId,
-          ],
+            [phoneId]: quantity + 1,
+          }
         };
-      });
+      })
     };
 
-    this.removeItem = (index) => {
+    this.removeItem = (phoneId) => {
       this.setState(prevState => {
-        return {
-          basketItems: [
-            ...prevState.basketItems.slice(0, index),
-            ...prevState.basketItems.slice(index + 1),
-          ]
-        };
+        const items = { ...prevState.basketItems };
+        delete items[phoneId];
+
+        return { basketItems: items };
       })
     };
 
