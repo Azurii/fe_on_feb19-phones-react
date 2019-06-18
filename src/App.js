@@ -1,4 +1,4 @@
-import React from 'react';
+import  React from 'react';
 
 import { getAll, getById } from './api/phone'
 import Basket from './components/Basket'
